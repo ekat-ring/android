@@ -8,13 +8,16 @@ import androidx.activity.*
 import androidx.activity.compose.setContent
 import androidx.appcompat.widget.Toolbar
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.gestures.snapping.SnapPosition
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.material3.OutlinedTextFieldDefaults.contentPadding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import kotlin.jvm.java
@@ -47,12 +50,20 @@ class SecondActivity :  ComponentActivity(){
 fun Screen(name: String, modifier: Modifier) {
     Column() {
         TopAppBar(
-            title = { Text(text = "My App") }
+            title = { Text(text = "NewOSNewProject") },
+            modifier = Modifier.fillMaxWidth()
         )
         Text(
             text = "Login successful, $name!",
             modifier = Modifier
+                .fillMaxWidth()
                 .padding(30.dp)
+                .align(Alignment.CenterHorizontally)
+        )
+        Image(
+            painter = painterResource(id = R.drawable.login),
+            modifier = Modifier.fillMaxWidth(),
+            contentDescription = "Test Image"
         )
         BackButton()
     }
