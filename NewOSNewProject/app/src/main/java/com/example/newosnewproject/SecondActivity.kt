@@ -7,6 +7,7 @@ import android.os.Bundle
 import androidx.activity.*
 import androidx.activity.compose.setContent
 import androidx.appcompat.widget.Toolbar
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.material3.OutlinedTextFieldDefaults.contentPadding
@@ -25,11 +26,7 @@ class SecondActivity :  ComponentActivity(){
         setContent {
             MyApplicationTheme {
                Scaffold (modifier = Modifier.fillMaxSize()) {innerPadding ->
-                    LoginText(
-                        name = "K.",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                   BackButton()
+                   Screen("Katey", modifier = Modifier.padding(innerPadding))
                 }
             }
         }
@@ -44,27 +41,22 @@ class SecondActivity :  ComponentActivity(){
     }
 }
 
-@Composable
-fun LoginText(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Login successful, $name!",
-        modifier = Modifier
-    )
-}
 
-
-/*@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Toolbar1(){
-    Column(){
-        Scaffold(modifier = Modifier.fillMaxSize()) {
-                TopAppBar(
-                    title = {
-                        Text(text = "TopAppBar")
-                    }
-        }
+fun Screen(name: String, modifier: Modifier) {
+    Column() {
+        TopAppBar(
+            title = { Text(text = "My App") }
+        )
+        Text(
+            text = "Login successful, $name!",
+            modifier = Modifier
+                .padding(30.dp)
+        )
+        BackButton()
     }
-}*/
+}
 @Composable
 fun BackButton() {
     val context: Context = LocalContext.current
