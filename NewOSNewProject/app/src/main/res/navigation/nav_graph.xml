@@ -19,5 +19,8 @@
         android:name="com.example.newosnewproject.SecondFragment"
         android:label="SecondFragment"
         tools:layout="@layout/fragment_second">
+        <action
+            android:id="@+id/action_secondFragment_to_firstFragment"
+            app:destination="@id/firstFragment"/>
     </fragment>
 </navigation>

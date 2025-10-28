@@ -94,6 +94,10 @@ class SecondFragment : Fragment(R.layout.fragment_second){
         view: View,
         savedInstanceState: Bundle?) {
             super.onViewCreated(view, savedInstanceState)
+            val backbutton:Button = view.findViewById<Button>(R.id.button_back)
+            backbutton.setOnClickListener {
+                findNavController().navigate(R.id.action_secondFragment_to_firstFragment)
+            }
         }
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)

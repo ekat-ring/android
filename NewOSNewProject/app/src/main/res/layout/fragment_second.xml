@@ -6,12 +6,13 @@
 
     <Toolbar
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="100dp"
         android:text="My App"/>
 
     <Button
+        android:id="@+id/button_back"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="100dp"
         android:text="Go back"/>
 
 
