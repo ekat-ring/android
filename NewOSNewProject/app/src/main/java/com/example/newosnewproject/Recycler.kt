@@ -4,24 +4,23 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import android.widget.TextView
+import androidx.annotation.DrawableRes
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 
-class ExamItem {
-    var examName: String? = null
-    var examDate: String? = null
-    var examMessage: String? = null
+sealed class RecyclerData {
+    data class Item(
+        @param:DrawableRes val ImageViewRes: Int,
+        val title: String,
+        val subtitle: String
+    ) : RecyclerData()
 
-    constructor(examName:String, examDate:String, examMessage:String){
-        this.examName = examName
-        this.examDate = examDate
-        this.examMessage = examMessage
-    }
-
+    data class Title (val text: String) : RecyclerData()
 }
+
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,94 +30,78 @@ class MainActivity : AppCompatActivity() {
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
 
         // Sample data
-        val examList: MutableList<ExamItem> = ArrayList()
+        val list: MutableList<RecyclerData> = ArrayList()
 
 
-        examList.add(
-            ExamItem(
-                "Microcontrollers",
-                "??/12/2025",
-                "You can do it. I think."
-            )
-        )
-
-        examList.add(
-            ExamItem(
-                "Robotics",
-                "??/12/2025",
-                "No idea what can happen."
-            )
-        )
-
-        examList.add(
-            ExamItem(
-                "English",
-                "??/12/2025",
-                "Pfffft, easy!"
-            )
-        )
-
-        examList.add(
-            ExamItem(
-                "Statistics",
-                "??/12/2025",
-                "You can do it!"
-            )
-        )
-
-        examList.add(
-            ExamItem(
-                "ODE",
-                "09/01/2026",
-                "It's worse than you think"
-            )
-        )
-        examList.add(
-            ExamItem(
-                "QM",
-                "17/01/2026",
-                "Morituri te salutant"
-            )
-        )
 
         recyclerView.layoutManager = LinearLayoutManager(this)
 
         // Set Adapter
-        val adapter = MyAdapter(examList)
+        val adapter = MyAdapter()
         recyclerView.adapter = adapter
     }
 }
 
-class MyAdapter(private val examList: List<ExamItem>) :
-    RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
+class MyAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.text_row, parent, false)
-        return MyViewHolder(view)
+    var list: List<RecyclerData> = emptyList()
+
+    class ViewHolderTitle(view : View) : RecyclerView.ViewHolder(view) {
+        val title : TextView = itemView.findViewById(R.id.title)
+
+        fun update(item : RecyclerData.Title){
+            title.text = item.text
+        }
     }
 
-    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val examItem = examList[position]
+    class ViewHolderItem(view : View) : RecyclerView.ViewHolder(view) {
+        val subtitle : TextView = itemView.findViewById(R.id.subtitle)
+        fun update(item : RecyclerData.Item){
+            subtitle.text = item.subtitle
+        }
+    }
 
-        holder.examName.text = examItem.examName
-        holder.examDate.text = examItem.examDate
-        holder.examMessage.text = examItem.examMessage
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return when (viewType) {
+            ITEM_TYPE -> {
+                val view = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.text_row_subtitle, parent, false)
 
-       // if(examItem.examPic != null)
-       //     holder.examPic.setImageResource(examItem.examPic!!)
+                ViewHolderItem(view)
+            }
 
+            TITLE_TYPE -> {
+                val view = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.text_row_title, parent, false)
+                ViewHolderTitle(view)
+            }
+            else -> throw IllegalStateException ("unsupported type")
+        }
+    }
+
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        when(val item = list[position]){
+            is RecyclerData.Item -> (holder as ViewHolderItem).update(item)
+            is RecyclerData.Title -> (holder as ViewHolderTitle).update(item)
+        }
     }
 
     override fun getItemCount(): Int {
-        return examList.size
+        return list.size
     }
 
-    // ViewHolder class
-    class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val examName: TextView = itemView.findViewById(R.id.examName)
-        val examDate: TextView = itemView.findViewById(R.id.examDate)
-        val examMessage: TextView = itemView.findViewById(R.id.examMessage)
-      //  val examPic: ImageView = itemView.findViewById(R.id.examPic)
-
+    override fun getItemViewType(position: Int): Int {
+        return when(list[position]){
+            is RecyclerData.Item -> ITEM_TYPE
+            is RecyclerData.Title -> TITLE_TYPE
+        }
     }
+    companion object {
+
+        private const val ITEM_TYPE = 0
+        private const val TITLE_TYPE = 1
+    }
+
+
+
 }
