@@ -1,4 +1,4 @@
-package com.example.API_project
+package com.example.api_project
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -40,11 +40,17 @@ class MainActivity : AppCompatActivity() {
         val adapter = MyAdapter()
         recyclerView.adapter = adapter
     }
+
+ /*   suspend fun network_call(){
+        var items = getData()
+        recyclerView.adapter = MyAdapter(items)
+    }*/
 }
 
 class MyAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var list: List<RecyclerData> = emptyList()
+
 
     class ViewHolderTitle(view : View) : RecyclerView.ViewHolder(view) {
         val title : TextView = itemView.findViewById(R.id.title)
