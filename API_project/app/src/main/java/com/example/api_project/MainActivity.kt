@@ -38,8 +38,6 @@ class MainActivity : AppCompatActivity() {
         //  val list: MutableList<RecyclerData> = getData();
 
         recyclerView.layoutManager = LinearLayoutManager(this)
-
-        // Set Adapter
         val adapter = MyAdapter()
         recyclerView.adapter = adapter
 
