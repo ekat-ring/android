@@ -72,4 +72,5 @@ dependencies {
     implementation(libs.ktor.serialization)
     implementation(libs.ktor.negotiation)
     implementation(libs.timber)
+    implementation("com.google.code.gson:gson:2.13.2")
 }

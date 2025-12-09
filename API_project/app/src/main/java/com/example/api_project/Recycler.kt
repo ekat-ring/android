@@ -9,47 +9,34 @@ import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.serialization.json.JsonElement
+import io.ktor.serialization.kotlinx.json.json
+import kotlinx.serialization.DeserializationStrategy
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.internal.readJson
+//import com.google.gson.Gson
 
+/*
+@Serializable(with = JsonArraySerializer::class)
+class JsonArray(content: List<JsonElement>) : JsonElement, List<JsonElement>
 
-sealed class RecyclerData {
-    data class Item(
-        @param:DrawableRes val ImageViewRes: Int,
-        val title: String,
-        val subtitle: String
-    ) : RecyclerData()
-
-    data class Title (val text: String) : RecyclerData()
+public fun <T> decodeFromJsonElement(deserializer: DeserializationStrategy<T>, element: JsonElement): T {
+    return readJson(this, element, deserializer)
 }
+*/
 
-
-class MainActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
-        val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
-
-        // Sample data
-        val list: MutableList<RecyclerData> = ArrayList()
-
-
-
-        recyclerView.layoutManager = LinearLayoutManager(this)
-
-        // Set Adapter
-        val adapter = MyAdapter()
-        recyclerView.adapter = adapter
-    }
-
- /*   suspend fun network_call(){
-        var items = getData()
-        recyclerView.adapter = MyAdapter(items)
-    }*/
-}
 
 class MyAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var list: List<RecyclerData> = emptyList()
+
+    suspend fun network_call(){
+
+        list = Json.decodeFromString<RecyclerData>(getData())
+
+    }
 
 
     class ViewHolderTitle(view : View) : RecyclerView.ViewHolder(view) {
@@ -107,7 +94,4 @@ class MyAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         private const val ITEM_TYPE = 0
         private const val TITLE_TYPE = 1
     }
-
-
-
 }

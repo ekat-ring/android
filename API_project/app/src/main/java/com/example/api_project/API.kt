@@ -23,23 +23,8 @@ import timber.log.Timber
 import android.app.Service
 import android.content.Intent
 import android.os.IBinder
-
-
-@Serializable
-class ResultResponse<T>(
-    @SerialName("results") val results: List<T>,
-)
-
-@Serializable
-class LocationResponse(
-    @SerialName ("id") val id: Int,
-    @SerialName ("name") val name: String,
-    @SerialName ("type") val type: String,
-    @SerialName ("dimension") val dimension: String,
-    @SerialName ("residents") val residents: List<String>,
-    @SerialName ("url") val url: String,
-    @SerialName ("created") val created: String,
-)
+import com.google.gson.Gson
+import io.ktor.client.statement.HttpResponse
 
 val client = HttpClient(OkHttp.create()) {
     install(ContentNegotiation) {
@@ -66,11 +51,14 @@ val client = HttpClient(OkHttp.create()) {
 }
 
 suspend fun getData() {
-    val data = client.get {
+
+    val data: HttpResponse = client.get {
         url("https://rickandmortyapi.com/api/episode")
         contentType(ContentType.Application.Json)
     }
-       // .body<ResultResponse>()
+    //    .body<RickResponse>()
+    //val parsedResponseBody = Gson().fromJson(data.readText(), RecyclerData::class.java)
+
 
     Timber.d("data: $data")
 }
