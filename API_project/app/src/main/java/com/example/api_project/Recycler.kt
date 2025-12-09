@@ -34,7 +34,7 @@ class MyAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     suspend fun network_call(){
 
-        list = Json.decodeFromString<RecyclerData>(getData())
+//        list = Json.decodeFromString<RecyclerData>(getData())
 
     }
 

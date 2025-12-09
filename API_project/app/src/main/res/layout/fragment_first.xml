@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="My App"
+        />
+
+    <TextView
+        android:paddingTop="150dp"
+        android:textAlignment="center"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:text="Log into app"
+        android:textSize="50sp"/>
+
+    <Button
+        android:id="@+id/button_get"
+        android:layout_width="match_parent"
+        android:layout_height="159dp"
+        android:textSize="50sp"
+        android:text="Get Fact"/>
+
+
+    <Button
+        android:id="@+id/button_view"
+        android:layout_width="match_parent"
+        android:layout_height="159dp"
+        android:textSize="50sp"
+        android:text="View history"/>
+</LinearLayout>
