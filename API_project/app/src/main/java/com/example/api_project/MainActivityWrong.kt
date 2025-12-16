@@ -1,5 +1,7 @@
 package com.example.api_project
 
+
+import android.icu.lang.UCharacter
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -11,9 +13,9 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivityWrong : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
-    private lateinit var adapter: CharacterAdapter
+    private lateinit var adapter: CharacterAdapter// MyAdapter
     private val service = RickAndMortyService()
 
 
@@ -23,9 +25,6 @@ class MainActivity : AppCompatActivity() {
         // Sample data
         recyclerView = findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
-        adapter = CharacterAdapter(emptyList()) { character ->
-            showCharacterDetails(character)
-        }
 
         recyclerView.adapter = adapter
 
@@ -47,7 +46,7 @@ class MainActivity : AppCompatActivity() {
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
                     Toast.makeText(
-                        this@MainActivity,
+                        this@MainActivityWrong,
                         "Error loading characters: ${e.message}",
                         Toast.LENGTH_LONG
                     ).show()
@@ -55,8 +54,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-
-
     private fun showCharacterDetails(character: CharacterItem) {
         Toast.makeText(
             this,

@@ -9,38 +9,11 @@ import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.serialization.json.JsonElement
-import io.ktor.serialization.kotlinx.json.json
-import kotlinx.serialization.DeserializationStrategy
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.internal.readJson
-//import com.google.gson.Gson
-
-/*
-@Serializable(with = JsonArraySerializer::class)
-class JsonArray(content: List<JsonElement>) : JsonElement, List<JsonElement>
-
-public fun <T> decodeFromJsonElement(deserializer: DeserializationStrategy<T>, element: JsonElement): T {
-    return readJson(this, element, deserializer)
-}
-*/
 
 
-class MyAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-
-    var list: List<RecyclerData> = emptyList()
-
-    suspend fun network_call(){
-
-//        list = Json.decodeFromString<RecyclerData>(getData())
-
-    }
-
-
+class MyAdapter(var list: List<CharacterItem>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     class ViewHolderTitle(view : View) : RecyclerView.ViewHolder(view) {
-        val title : TextView = itemView.findViewById(R.id.title)
+        val title : TextView = itemView.findViewById(R.id.text_row_title)
 
         fun update(item : RecyclerData.Title){
             title.text = item.text
@@ -48,11 +21,20 @@ class MyAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 
     class ViewHolderItem(view : View) : RecyclerView.ViewHolder(view) {
-        val subtitle : TextView = itemView.findViewById(R.id.subtitle)
+        val subtitle : TextView = itemView.findViewById(R.id.text_row_subtitle)
         fun update(item : RecyclerData.Item){
             subtitle.text = item.subtitle
         }
     }
+
+
+    class ViewHolderChar(view : View) : RecyclerView.ViewHolder(view) {
+        val subtitle : TextView = itemView.findViewById(R.id.char_row)
+        fun update(item : RecyclerData.Item){
+            subtitle.text = item.subtitle
+        }
+    }
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
@@ -67,6 +49,13 @@ class MyAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 val view = LayoutInflater.from(parent.context)
                     .inflate(R.layout.text_row_title, parent, false)
                 ViewHolderTitle(view)
+            }
+
+
+            CHAR_TYPE -> {
+                val view = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.character_item, parent, false)
+                ViewHolderChar(view)
             }
             else -> throw IllegalStateException ("unsupported type")
         }
@@ -87,11 +76,17 @@ class MyAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         return when(list[position]){
             is RecyclerData.Item -> ITEM_TYPE
             is RecyclerData.Title -> TITLE_TYPE
+            is CharacterItem -> CHAR_TYPE
         }
     }
+
     companion object {
 
         private const val ITEM_TYPE = 0
         private const val TITLE_TYPE = 1
+        private const val CHAR_TYPE = 2
     }
+
+
+
 }

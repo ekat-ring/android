@@ -25,6 +25,12 @@ import android.content.Intent
 import android.os.IBinder
 import com.google.gson.Gson
 import io.ktor.client.statement.HttpResponse
+import io.ktor.client.call.body
+import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.client.request.get
+import io.ktor.client.request.url
+import io.ktor.http.contentType
+import io.ktor.serialization.kotlinx.json.json
 
 val client = HttpClient(OkHttp.create()) {
     install(ContentNegotiation) {
@@ -52,11 +58,11 @@ val client = HttpClient(OkHttp.create()) {
 
 suspend fun getData() {
 
-    val data: HttpResponse = client.get {
+    val data = client.get {
         url("https://rickandmortyapi.com/api/episode")
         contentType(ContentType.Application.Json)
     }
-    //    .body<RickResponse>()
+        .body<RickResponse>()
     //val parsedResponseBody = Gson().fromJson(data.readText(), RecyclerData::class.java)
 
 
@@ -64,6 +70,32 @@ suspend fun getData() {
 }
 
 
+
+class RickAndMortyService {
+    private val client = HttpClient {
+        install(ContentNegotiation) {
+            json(Json {
+                prettyPrint = true
+                isLenient = true
+                ignoreUnknownKeys = true
+            })
+        }
+    }
+
+    suspend fun getData_ver(): List<Character> {
+        try {
+            val response = client.get {
+                url("https://rickandmortyapi.com/api/character")
+                contentType(ContentType.Application.Json)
+            }
+                .body<CharactersResponse>()
+            return response.results
+        } catch (e: Exception) {
+            e.printStackTrace()
+            return emptyList()
+        }
+    }
+}
 /*
 fun init() {
     viewModelScope.launch {
