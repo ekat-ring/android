@@ -32,15 +32,6 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController)
 
 
-    val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
-
-        // Sample data
-        //  val list: MutableList<RecyclerData> = getData();
-
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        val adapter = MyAdapter()
-        recyclerView.adapter = adapter
-
     }
 
     override fun onSupportNavigateUp(): Boolean {

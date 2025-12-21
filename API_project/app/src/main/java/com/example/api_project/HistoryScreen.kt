@@ -7,20 +7,32 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 
-class HistoryFragment : Fragment(R.layout.fragment_second){
+class HistoryScreen : Fragment(R.layout.fragment_history){
+
+    lateinit var recyclerView: RecyclerView
+    var adapter = MyAdapter()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,): View {
-        return inflater.inflate(R.layout.fragment_second, container, false)
+        return inflater.inflate(R.layout.fragment_history, container, false)
     }
 
     override fun onViewCreated(
         view: View,
         savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        recyclerView = view.findViewById<RecyclerView>(R.id.recyclerView)
+
+        recyclerView.layoutManager = LinearLayoutManager(context)
+        adapter = MyAdapter()
+        recyclerView.adapter = adapter
+
         val backbutton:Button = view.findViewById<Button>(R.id.button_back)
         backbutton.setOnClickListener {
             findNavController().navigate(R.id.action_secondFragment_to_firstFragment)
@@ -31,7 +43,7 @@ class HistoryFragment : Fragment(R.layout.fragment_second){
     }
     companion object {
         fun newInstance() =
-            HistoryFragment().apply {
+            HistoryScreen().apply {
                 arguments = Bundle().apply {
 
                 }

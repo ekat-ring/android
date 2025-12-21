@@ -19,7 +19,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.navigation.fragment.findNavController
 
 
-class FirstFragment : Fragment(R.layout.fragment_first){
+class FirstScreen : Fragment(R.layout.fragment_first){
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -53,7 +53,7 @@ class FirstFragment : Fragment(R.layout.fragment_first){
 
     companion object {
         fun newInstance() =
-            FirstFragment().apply {
+            FirstScreen().apply {
                 arguments = Bundle().apply {
 
                 }

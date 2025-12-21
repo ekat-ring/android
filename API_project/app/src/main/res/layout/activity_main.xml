@@ -18,15 +18,11 @@
         app:layout_constraintTop_toTopOf="parent"
         app:navGraph="@navigation/nav_graph"/>
 
-
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Exam Schedule"
+        android:paddingTop="150dp"
         android:textAlignment="center"
-        android:background="@android:color/darker_gray"
-        android:paddingTop="54sp"
-        android:paddingBottom="20sp"
-        android:textSize="24sp"/>
-
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:text="Main Activity Layout"
+        android:textSize="50sp"/>
 </LinearLayout>
