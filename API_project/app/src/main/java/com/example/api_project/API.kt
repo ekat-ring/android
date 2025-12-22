@@ -1,6 +1,7 @@
 package com.example.api_project
 
 
+import android.R.string
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.engine.okhttp.OkHttp
@@ -15,73 +16,84 @@ import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
 import io.ktor.http.contentType
 import io.ktor.serialization.kotlinx.json.json
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonNames
-import timber.log.Timber
-import android.app.Service
-import android.content.Intent
-import android.os.IBinder
-import com.google.gson.Gson
-import io.ktor.client.statement.HttpResponse
 
-val client = HttpClient(OkHttp.create()) {
-    install(ContentNegotiation) {
-        json(
-            Json {
-                prettyPrint = true
-                isLenient = true
-                useAlternativeNames = true
-                ignoreUnknownKeys = true
-                encodeDefaults = false
-            }
-        )
+
+class FactService {
+    val client = HttpClient(OkHttp.create()) {
+        install(ContentNegotiation) {
+            json(
+                Json {
+                    prettyPrint = true
+                    isLenient = true
+                    useAlternativeNames = true
+                    ignoreUnknownKeys = true
+                    encodeDefaults = false
+                }
+            )
+        }
+
+
+        install(DefaultRequest) {
+            header(HttpHeaders.ContentType, ContentType.Application.Json)
+        }
+
+        defaultRequest {
+            contentType(ContentType.Application.Json)
+            accept(ContentType.Application.Json)
+        }
     }
 
+    suspend fun getFact(): FactResponse {
 
-    install(DefaultRequest) {
-        header(HttpHeaders.ContentType, ContentType.Application.Json)
-    }
-
-    defaultRequest {
-        contentType(ContentType.Application.Json)
-        accept(ContentType.Application.Json)
-    }
-}
-
-suspend fun getData() {
-
-    val data: HttpResponse = client.get {
-        url("https://rickandmortyapi.com/api/episode")
-        contentType(ContentType.Application.Json)
-    }
-    //    .body<RickResponse>()
-    //val parsedResponseBody = Gson().fromJson(data.readText(), RecyclerData::class.java)
-
-
-    Timber.d("data: $data")
-}
-
-
-/*
-fun init() {
-    viewModelScope.launch {
-        service.getSomeData()
-    }
-}
-
-override fun onBind(intent: Intent?): IBinder? {
-    TODO("Not yet implemented")
-}
-*/
-
-/*
-try:
-        client.get {
-            url("https://rickandmortyapi.com/api/location")
+        //   try {
+        val response = client.get {
+            url("https://uselessfacts.jsph.pl/api/v2/facts/random?language=en")
             contentType(ContentType.Application.Json)
         }
+            .body<FactResponse>()
+        return response
+        // } catch (e: Exception) {
+        //      return emptyList()
+        //   }
+    }
+}
 
+class TranslationService {
+    val client = HttpClient(OkHttp.create()) {
+        install(ContentNegotiation) {
+            json(
+                Json {
+                    prettyPrint = true
+                    isLenient = true
+                    useAlternativeNames = true
+                    ignoreUnknownKeys = true
+                    encodeDefaults = false
+                }
+            )
         }
-*/
+
+
+        install(DefaultRequest) {
+            header(HttpHeaders.ContentType, ContentType.Application.Json)
+        }
+
+        defaultRequest {
+            contentType(ContentType.Application.Json)
+            accept(ContentType.Application.Json)
+        }
+    }
+
+    suspend fun getTranslation(fact: String) : TranslateResponse {
+
+        //   try {
+        var response = client.get {
+            url("https://api.mymemory.translated.net/get?q=$fact&langpair=en|ru")
+            contentType(ContentType.Application.Json)
+        }.body<TranslateResponse>()
+        return response
+        // } catch (e: Exception) {
+        //      return emptyList()
+        //   }
+    }
+}

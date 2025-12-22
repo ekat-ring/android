@@ -1,25 +1,27 @@
 package com.example.api_project
 
-import android.content.Intent
+
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import android.widget.Button
-import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.navigation.NavController
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.activity.enableEdgeToEdge
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.navigation.fragment.findNavController
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
+
+
+var History: List<FactResponse> = emptyList()
 
 class FirstScreen : Fragment(R.layout.fragment_first){
+    private val fact_service = FactService()
+    private val translation_service = TranslationService()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,14 +34,17 @@ class FirstScreen : Fragment(R.layout.fragment_first){
         view: View,
         savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val nextbutton:Button = view.findViewById<Button>(R.id.button_get)
-        nextbutton.setOnClickListener {
-            onButtonPressed()
+        val getbutton:Button = view.findViewById<Button>(R.id.button_get)
+        val viewbutton:Button = view.findViewById<Button>(R.id.button_view)
+        getbutton.setOnClickListener {
+            onButtonGetPressed(view)
+        }
+        viewbutton.setOnClickListener {
+            onButtonViewPressed()
         }
     }
 
-    fun onButtonPressed(){
+    fun onButtonViewPressed(){
        // try {
             findNavController().navigate(R.id.action_firstFragment_to_secondFragment)
         //}
@@ -47,41 +52,39 @@ class FirstScreen : Fragment(R.layout.fragment_first){
           //  Toast.makeText(context, "Login Failed!", Toast.LENGTH_SHORT).show()
 
     }
+
+    fun onButtonGetPressed(view: View){
+        NetworkCall(view)
+    }
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
     }
 
-    companion object {
-        fun newInstance() =
-            FirstScreen().apply {
-                arguments = Bundle().apply {
+    private fun NetworkCall(view: View){
+        var fact: FactResponse
+        var tr_fact: TranslateResponse
+        val textbox = view.findViewById<TextView>(R.id.fact_textbox)
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                fact = fact_service.getFact()
+                textbox.text = fact.text
 
+                History += fact
+                var prepared_fact = fact.text.replace(" ", "%20")
+                tr_fact = translation_service.getTranslation(prepared_fact)
+                textbox.text = tr_fact.responseData.translatedTtext
+
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(
+                        context,
+                        "Error loading facts: ${e.message}",
+                        Toast.LENGTH_LONG
+                    ).show()
+                    textbox.text = e.message
+                    print (e.message)
                 }
             }
+        }
     }
 }
-
-/*
-class FirstScreen : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContentView(R.layout.activity_first_screen)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
-        val viewProductBtn= findViewById<Button>(R.id.viewProduct)
-
-        viewProductBtn.setOnClickListener {
-            val intent = Intent(this, SecondScreen::class.java)
-            startActivity(intent)
-        }
-
-    }
-}
-
-
-
-*/

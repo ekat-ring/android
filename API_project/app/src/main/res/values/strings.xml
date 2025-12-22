@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">API_project</string>
+    <string name="starter_msg">Факты будут выводиться здесь!</string>
+    <string name="view_history_btn">История</string>
+    <string name="get_fact_btn">Новый факт</string>
+    <string name="greeting">Добро пожаловать!</string>
+    <string name="app_header">Генератор фактов</string>
+    <string name="main_act_text">Main Activity Layout</string>
+    <string name="app_label">Генератор фактов</string>
+    <string name="history_bar">История фактов</string>
 </resources>

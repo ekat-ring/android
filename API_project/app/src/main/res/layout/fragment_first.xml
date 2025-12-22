@@ -7,29 +7,38 @@
     <Toolbar
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:text="My App"
+        android:text="@string/app_header"
         />
 
     <TextView
-        android:paddingTop="150dp"
+        android:paddingTop="100dp"
         android:textAlignment="center"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:text="Log into app"
+        android:text="@string/greeting"
         android:textSize="50sp"/>
 
     <Button
         android:id="@+id/button_get"
         android:layout_width="match_parent"
-        android:layout_height="159dp"
-        android:textSize="50sp"
-        android:text="Get Fact"/>
+        android:layout_height="100dp"
+        android:textSize="40sp"
+        android:text="@string/get_fact_btn"/>
 
 
     <Button
         android:id="@+id/button_view"
         android:layout_width="match_parent"
-        android:layout_height="159dp"
-        android:textSize="50sp"
-        android:text="View history"/>
+        android:layout_height="100dp"
+        android:textSize="40sp"
+        android:text="@string/view_history_btn"/>
+
+    <TextView
+        android:paddingTop="20dp"
+        android:id="@+id/fact_textbox"
+        android:textAlignment="center"
+        android:layout_height="400dp"
+        android:layout_width="match_parent"
+        android:text="@string/starter_msg"
+        android:textSize="30sp"/>
 </LinearLayout>
