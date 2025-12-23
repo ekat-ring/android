@@ -23,7 +23,8 @@ class MainActivity : AppCompatActivity() {
         // Set up the action bar for use with the NavController
         setupActionBarWithNavController(navController)
 
-
+        db.entry_list = db.FactDao.getAll()
+        db.updateAll()
     }
 
     override fun onSupportNavigateUp(): Boolean {

@@ -74,7 +74,6 @@ class FirstScreen : Fragment(R.layout.fragment_first){
                 textbox.text = tr_fact.responseData.translatedTtext
                 db.convert_and_add(fact.text, tr_fact.responseData.translatedTtext)
 
-                //db.updateAll()
                // db.insertAll()
 
                 break@loop
