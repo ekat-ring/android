@@ -17,8 +17,7 @@ import kotlinx.coroutines.withContext
 
 
 
-var History: List<FactResponse> = emptyList()
-
+//var History: List<FactResponse> = emptyList()
 class FirstScreen : Fragment(R.layout.fragment_first){
     private val fact_service = FactService()
     private val translation_service = TranslationService()
@@ -65,14 +64,20 @@ class FirstScreen : Fragment(R.layout.fragment_first){
         var tr_fact: TranslateResponse
         val textbox = view.findViewById<TextView>(R.id.fact_textbox)
         CoroutineScope(Dispatchers.IO).launch {
+            loop@ for (i in 1..5)
             try {
                 fact = fact_service.getFact()
                 textbox.text = fact.text
 
-                History += fact
                 var prepared_fact = fact.text.replace(" ", "%20")
                 tr_fact = translation_service.getTranslation(prepared_fact)
                 textbox.text = tr_fact.responseData.translatedTtext
+                db.convert_and_add(fact.text, tr_fact.responseData.translatedTtext)
+
+                //db.updateAll()
+               // db.insertAll()
+
+                break@loop
 
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
@@ -81,8 +86,6 @@ class FirstScreen : Fragment(R.layout.fragment_first){
                         "Error loading facts: ${e.message}",
                         Toast.LENGTH_LONG
                     ).show()
-                    textbox.text = e.message
-                    print (e.message)
                 }
             }
         }

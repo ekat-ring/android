@@ -1,12 +1,13 @@
 package com.example.api_project
 
+import androidx.room.Entity
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
 class FactResponse (
     @SerialName ("id") val id: String,
-    @SerialName ("text") val text: String,
+    @SerialName ("text") var text: String,
     @SerialName ("source") val source: String,
     @SerialName ("source_url") val source_url: String,
     @SerialName ("language") val language: String,

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">API_project</string>
+    <string name="app_name">Генератор фактов</string>
     <string name="starter_msg">Факты будут выводиться здесь!</string>
     <string name="view_history_btn">История</string>
     <string name="get_fact_btn">Новый факт</string>

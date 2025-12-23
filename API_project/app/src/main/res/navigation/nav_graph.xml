@@ -8,7 +8,6 @@
     <fragment
         android:id="@+id/firstScreenFragment"
         android:name="com.example.api_project.FirstScreen"
-        android:label="FirstScreen"
         tools:layout="@layout/fragment_first">
         <action
             android:id="@+id/action_firstFragment_to_secondFragment"
@@ -17,7 +16,6 @@
     <fragment
         android:id="@+id/historyScreenFragment"
         android:name="com.example.api_project.HistoryScreen"
-        android:label="HistoryScreen"
         tools:layout="@layout/fragment_history">
         <action
             android:id="@+id/action_secondFragment_to_firstFragment"
